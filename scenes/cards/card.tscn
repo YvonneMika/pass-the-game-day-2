@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8iaxnwk748px"]
+
+[ext_resource type="Script" path="res://scripts/cards/card.gd" id="1_xoe8l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_csujt"]
+bg_color = Color(0.262745, 0.603922, 0.360784, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="Panel" type="Panel"]
+custom_minimum_size = Vector2(150, 250)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -576.0
+offset_top = -648.0
+offset_right = -426.0
+offset_bottom = -398.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(75, 250)
+theme_override_styles/panel = SubResource("StyleBoxFlat_csujt")
+script = ExtResource("1_xoe8l")

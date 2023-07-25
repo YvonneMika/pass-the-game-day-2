@@ -1,0 +1,71 @@
+[gd_scene load_steps=7 format=3 uid="uid://uhnotqp5xdhl"]
+
+[ext_resource type="PackedScene" uid="uid://cmckw46q12ubs" path="res://scenes/characters/character.tscn" id="1_pniiw"]
+[ext_resource type="Script" path="res://scripts/character/player/player.gd" id="2_5wmxx"]
+[ext_resource type="Script" path="res://scripts/input.gd" id="2_m8mhk"]
+[ext_resource type="Script" path="res://scripts/character/ai.gd" id="4_vobog"]
+[ext_resource type="Script" path="res://scripts/cards/card_container.gd" id="5_mrxrq"]
+[ext_resource type="PackedScene" uid="uid://c8iaxnwk748px" path="res://scenes/cards/card.tscn" id="6_5k2mh"]
+
+[node name="World" type="Node2D"]
+
+[node name="Player" parent="." node_paths=PackedStringArray("movement") instance=ExtResource("1_pniiw")]
+script = ExtResource("2_5wmxx")
+movement = NodePath("../Input")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="Input" type="Node" parent="."]
+script = ExtResource("2_m8mhk")
+
+[node name="AI" parent="." node_paths=PackedStringArray("movement") instance=ExtResource("1_pniiw")]
+position = Vector2(204, -35)
+movement = NodePath("AI")
+
+[node name="AI" type="Node" parent="AI"]
+script = ExtResource("4_vobog")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -250.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = -50
+alignment = 1
+script = ExtResource("5_mrxrq")
+separation = -50
+
+[node name="Panel3" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
+layout_mode = 2
+
+[node name="Panel11" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
+layout_mode = 2
+
+[node name="Panel4" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
+layout_mode = 2
+
+[node name="Panel5" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
+layout_mode = 2
+
+[node name="Panel6" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
+layout_mode = 2
+
+[node name="Panel7" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
+layout_mode = 2
+
+[node name="Panel8" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
+layout_mode = 2
+
+[node name="Panel9" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
+layout_mode = 2
+
+[node name="Panel10" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
+layout_mode = 2
+
+[connection signal="child_entered_tree" from="CanvasLayer/HBoxContainer" to="CanvasLayer/HBoxContainer" method="_on_child_entered_tree"]
+[connection signal="sort_children" from="CanvasLayer/HBoxContainer" to="CanvasLayer/HBoxContainer" method="_on_sort_children"]
