@@ -54,7 +54,6 @@ func _physics_process(delta: float) -> void:
 func take_damage(amount: int):
 	if invulnerable:
 		return
-	print("take_damage")
 	stat_sheet.health -= amount
 	if stat_sheet.health <= 0:
 		die()
