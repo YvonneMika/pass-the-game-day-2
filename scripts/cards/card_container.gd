@@ -11,6 +11,7 @@ extends HBoxContainer
 		if p_separation != separation:
 			separation = p_separation
 			add_theme_constant_override("separation", separation)
+@export var max_width := size.x
 
 func _on_sort_children() -> void:
 	adjust_separation()
@@ -33,15 +34,15 @@ func adjust_separation():
 	
 	print("children_total_width: ", children_total_width)
 	
-	var children_width_ratio = float(children_total_width) / size.x if children_total_width != 0 else 0 # What percent of the container the children take up
+	var children_width_ratio = float(children_total_width) / max_width if children_total_width != 0 else 0 # What percent of the container the children take up
 	
 	print("children_width_ratio: ", children_width_ratio)
 	var child_average_width = children_total_width / visible_children_count
 	
 	# If cards take up most of this containers size
 	# overlap them based on by how much
-	if children_width_ratio > 1: 
-		separation = (size.x - children_total_width) / visible_children_count
+	if children_width_ratio > .9: 
+		separation = (max_width - children_total_width) / visible_children_count
 		print("New sep: ", separation)
 	elif separation != 0:
 		separation = 0

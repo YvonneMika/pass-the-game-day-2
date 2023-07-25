@@ -38,34 +38,31 @@ offset_top = -250.0
 offset_right = 375.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = 0
+theme_override_constants/separation = -92
 alignment = 1
 script = ExtResource("5_mrxrq")
+separation = -92
+max_width = 750.0
 
 [node name="Card" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
 layout_mode = 2
 
 [node name="Card2" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-visible = false
 layout_mode = 2
 
 [node name="Card3" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-visible = false
 layout_mode = 2
 
 [node name="Card4" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-visible = false
 layout_mode = 2
 
 [node name="Card5" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-visible = false
 layout_mode = 2
 
 [node name="Card6" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
 layout_mode = 2
 
 [node name="Card7" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-visible = false
 layout_mode = 2
 
 [node name="Card8" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
@@ -75,6 +72,15 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Card10" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
+layout_mode = 2
+
+[node name="Card11" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
+layout_mode = 2
+
+[node name="Card12" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
+layout_mode = 2
+
+[node name="Card13" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
 layout_mode = 2
 
 [connection signal="child_entered_tree" from="CanvasLayer/HBoxContainer" to="CanvasLayer/HBoxContainer" method="_on_child_entered_tree"]
