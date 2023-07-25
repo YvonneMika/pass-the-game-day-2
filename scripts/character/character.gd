@@ -14,11 +14,14 @@ signal on_die() ## Called when this character's health reaches 0
 @export_group("Dependencies")
 @export var animation_player: AnimationPlayer
 @export var particles: GPUParticles2D ## Right now used for movement
-@export var sprite: Sprite2D
 @export var character_root: Node2D = self ## The root of the character, used to determine what to delete on death
 @export var movement: Movement ## Needed to move the character
+@export var character_texture: Texture2D
+
+@onready var sprite = $Sprite2D
 
 func _ready() -> void:
+	sprite.texture = character_texture
 	animation_player.play("idle")
 
 func _physics_process(_delta: float) -> void:

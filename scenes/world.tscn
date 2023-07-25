@@ -1,16 +1,83 @@
-[gd_scene load_steps=7 format=3 uid="uid://uhnotqp5xdhl"]
+[gd_scene load_steps=14 format=3 uid="uid://uhnotqp5xdhl"]
 
+[ext_resource type="Script" path="res://scripts/world.gd" id="1_n12yl"]
 [ext_resource type="PackedScene" uid="uid://cmckw46q12ubs" path="res://scenes/characters/character.tscn" id="1_pniiw"]
 [ext_resource type="Script" path="res://scripts/character/player/player.gd" id="2_5wmxx"]
 [ext_resource type="Script" path="res://scripts/input.gd" id="2_m8mhk"]
 [ext_resource type="Script" path="res://scripts/character/ai.gd" id="4_vobog"]
-[ext_resource type="Script" path="res://scripts/cards/card_container.gd" id="5_mrxrq"]
-[ext_resource type="PackedScene" uid="uid://c8iaxnwk748px" path="res://scenes/cards/card.tscn" id="6_5k2mh"]
+[ext_resource type="Script" path="res://scripts/ui.gd" id="5_ciko1"]
+[ext_resource type="PackedScene" uid="uid://c8iaxnwk748px" path="res://scenes/ui/cards/card.tscn" id="6_5k2mh"]
+[ext_resource type="Script" path="res://scripts/ui/card_hover_area.gd" id="7_5bslm"]
+[ext_resource type="Script" path="res://scripts/ui/cards/card_container.gd" id="7_d72ej"]
+[ext_resource type="PackedScene" uid="uid://dd8fhaq8kla3k" path="res://scenes/items/card.tscn" id="7_egx88"]
+
+[sub_resource type="Animation" id="Animation_807wj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_constants/margin_top")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [150]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:theme_override_constants/margin_bottom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [-150]
+}
+
+[sub_resource type="Animation" id="Animation_wkey0"]
+resource_name = "hover"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_constants/margin_top")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [150, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:theme_override_constants/margin_bottom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-150, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tyaho"]
+_data = {
+"RESET": SubResource("Animation_807wj"),
+"focus": SubResource("Animation_wkey0")
+}
 
 [node name="World" type="Node2D"]
+script = ExtResource("1_n12yl")
 
-[node name="Player" parent="." node_paths=PackedStringArray("movement") instance=ExtResource("1_pniiw")]
+[node name="Player" parent="." node_paths=PackedStringArray("UI", "movement") instance=ExtResource("1_pniiw")]
 script = ExtResource("2_5wmxx")
+UI = NodePath("../UI")
 movement = NodePath("../Input")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
@@ -25,63 +92,59 @@ movement = NodePath("AI")
 [node name="AI" type="Node" parent="AI"]
 script = ExtResource("4_vobog")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." node_paths=PackedStringArray("card_container")]
+script = ExtResource("5_ciko1")
+card_container = NodePath("CardHoverArea/CardContainer")
+card_scene = ExtResource("6_5k2mh")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
-anchors_preset = 7
-anchor_left = 0.5
+[node name="CardHoverArea" type="MarginContainer" parent="UI" node_paths=PackedStringArray("card_container", "animation_player")]
+anchors_preset = 12
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -375.0
 offset_top = -250.0
-offset_right = 375.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = -92
+theme_override_constants/margin_top = 150
+theme_override_constants/margin_bottom = -150
+script = ExtResource("7_5bslm")
+card_container = NodePath("CardContainer")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/CardHoverArea"]
+libraries = {
+"": SubResource("AnimationLibrary_tyaho")
+}
+
+[node name="CardContainer" type="HBoxContainer" parent="UI/CardHoverArea"]
+layout_mode = 2
+theme_override_constants/separation = 0
 alignment = 1
-script = ExtResource("5_mrxrq")
-separation = -92
+script = ExtResource("7_d72ej")
 max_width = 750.0
 
-[node name="Card" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
+[node name="Card" parent="UI/CardHoverArea/CardContainer" instance=ExtResource("6_5k2mh")]
 layout_mode = 2
 
-[node name="Card2" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
+[node name="Card2" parent="UI/CardHoverArea/CardContainer" instance=ExtResource("6_5k2mh")]
 layout_mode = 2
 
-[node name="Card3" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-layout_mode = 2
+[node name="Card4" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("7_egx88")]
+position = Vector2(-283, 72)
+sprite = NodePath("../Card/Item2")
 
-[node name="Card4" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-layout_mode = 2
+[node name="Card2" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("7_egx88")]
+position = Vector2(76, -123)
+sprite = NodePath("../Card/Item2")
 
-[node name="Card5" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-layout_mode = 2
+[node name="Card" parent="." instance=ExtResource("7_egx88")]
+position = Vector2(-98, -38)
 
-[node name="Card6" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-layout_mode = 2
+[node name="Card3" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("7_egx88")]
+position = Vector2(228, 152)
+sprite = NodePath("../Card/Item2")
 
-[node name="Card7" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-layout_mode = 2
-
-[node name="Card8" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-layout_mode = 2
-
-[node name="Card9" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-layout_mode = 2
-
-[node name="Card10" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-layout_mode = 2
-
-[node name="Card11" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-layout_mode = 2
-
-[node name="Card12" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-layout_mode = 2
-
-[node name="Card13" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
-layout_mode = 2
-
-[connection signal="child_entered_tree" from="CanvasLayer/HBoxContainer" to="CanvasLayer/HBoxContainer" method="_on_child_entered_tree"]
-[connection signal="sort_children" from="CanvasLayer/HBoxContainer" to="CanvasLayer/HBoxContainer" method="_on_sort_children"]
+[connection signal="child_entered_tree" from="UI/CardHoverArea/CardContainer" to="UI/CardHoverArea/CardContainer" method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="UI/CardHoverArea/CardContainer" to="UI/CardHoverArea/CardContainer" method="_on_child_exiting_tree"]
+[connection signal="on_card_used" from="UI/CardHoverArea/CardContainer" to="." method="_on_card_container_on_card_used"]
+[connection signal="sort_children" from="UI/CardHoverArea/CardContainer" to="UI/CardHoverArea/CardContainer" method="_on_sort_children"]

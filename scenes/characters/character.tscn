@@ -100,15 +100,15 @@ _data = {
 "walk": SubResource("Animation_gl4xe")
 }
 
-[node name="Character" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "particles", "sprite", "character_root")]
+[node name="Character" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "particles", "character_root")]
 texture_filter = 1
 scale = Vector2(2.5, 2.5)
 motion_mode = 1
 script = ExtResource("1_2w13c")
 animation_player = NodePath("AnimationPlayer")
 particles = NodePath("GPUParticles2D")
-sprite = NodePath("Sprite2D")
 character_root = NodePath(".")
+character_texture = ExtResource("3_yfl5i")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 position = Vector2(-2.98023e-08, 8)
@@ -118,7 +118,6 @@ texture = ExtResource("2_dnuem")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, 9)
-texture = ExtResource("3_yfl5i")
 offset = Vector2(0, -9)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
