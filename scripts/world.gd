@@ -3,6 +3,16 @@ extends Node2D
 @export var card_scene : PackedScene
 @export var monster_scene : PackedScene
 
+# Dev notes: There is a custom resource called StatSheet that holds stats,
+# Right now it only has health and damage used very basically when a monster or enemy attacks something
+# stat_sheet.gd can be easily modified and because it it always passed when a card is used or picked up
+# or character is spawned it will always be transfered
+
+# Example:
+# right now you can create a +1 damage monster card by picking them up, 
+# If that monster with +1 damage attacks an enemy it can kill it
+# if you make a monster without changing it's stat_sheet.damage to 1 it will be 0 and won't do damage when spawned
+
 ## Whenever a card is dragged onto the screen this function is run
 func _on_card_container_card_used(card: CardUI) -> void:
 	var card_pos = get_global_mouse_position()

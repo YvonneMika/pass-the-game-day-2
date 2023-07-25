@@ -6,7 +6,7 @@ class_name Character
 
 signal on_die() ## Called when this character's health reaches 0
 
-@export var stat_sheet : StatSheet
+@export var stat_sheet : StatSheet ## Stat sheet is a custom resource that all cards and characters use, it can be easily modified/upgraded in stat_sheet.gd
 @export var invuln_time := 1
 @export_group("Physics")
 @export var SPEED := 300.0
