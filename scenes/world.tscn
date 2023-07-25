@@ -35,10 +35,10 @@ anchor_bottom = 1.0
 offset_top = -250.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = -50
+theme_override_constants/separation = -96
 alignment = 1
 script = ExtResource("5_mrxrq")
-separation = -50
+separation = -96
 
 [node name="Panel3" parent="CanvasLayer/HBoxContainer" instance=ExtResource("6_5k2mh")]
 layout_mode = 2

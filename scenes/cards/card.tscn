@@ -14,7 +14,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[node name="Panel" type="Panel"]
+[node name="Card" type="Panel"]
 custom_minimum_size = Vector2(150, 250)
 anchors_preset = 7
 anchor_left = 0.5
