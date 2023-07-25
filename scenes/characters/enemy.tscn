@@ -1,16 +1,17 @@
-[gd_scene load_steps=12 format=3 uid="uid://cmckw46q12ubs"]
+[gd_scene load_steps=14 format=3 uid="uid://ctqbrn54sx2em"]
 
-[ext_resource type="Script" path="res://scripts/character/character.gd" id="1_2w13c"]
-[ext_resource type="Texture2D" uid="uid://cw6ensncsjsyl" path="res://assets/images/particle.png" id="2_dnuem"]
-[ext_resource type="Texture2D" uid="uid://datuqk7usobkk" path="res://assets/images/place_holder.png" id="3_yfl5i"]
+[ext_resource type="Script" path="res://scripts/character/enemy.gd" id="1_g6dmt"]
+[ext_resource type="Texture2D" uid="uid://cw6ensncsjsyl" path="res://assets/images/particle.png" id="2_78ye6"]
+[ext_resource type="Texture2D" uid="uid://datuqk7usobkk" path="res://assets/images/place_holder.png" id="3_x1hun"]
+[ext_resource type="Script" path="res://scripts/character/enemy_ai.gd" id="4_qs6k8"]
 
-[sub_resource type="Gradient" id="Gradient_nrie0"]
+[sub_resource type="Gradient" id="Gradient_f715h"]
 colors = PackedColorArray(1, 1, 1, 1, 0.454524, 0.454524, 0.454524, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_d88dh"]
-gradient = SubResource("Gradient_nrie0")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ps7nf"]
+gradient = SubResource("Gradient_f715h")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_irbnr"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lmyml"]
 lifetime_randomness = 0.25
 emission_shape = 3
 emission_box_extents = Vector3(6, 0, 0)
@@ -26,11 +27,11 @@ orbit_velocity_max = 0.0
 angle_min = -90.0
 angle_max = 90.0
 scale_max = 2.0
-color_ramp = SubResource("GradientTexture1D_d88dh")
+color_ramp = SubResource("GradientTexture1D_ps7nf")
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iyn3p"]
-radius = 2.0
-height = 12.8
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_exa2a"]
+radius = 5.2
+height = 34.0
 
 [sub_resource type="Animation" id="Animation_vgek2"]
 length = 0.001
@@ -100,25 +101,35 @@ _data = {
 "walk": SubResource("Animation_gl4xe")
 }
 
-[node name="Character" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "particles", "character_root")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_2nmps"]
+radius = 259.326
+
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "particles", "character_root", "movement")]
 texture_filter = 1
-scale = Vector2(2.5, 2.5)
-motion_mode = 1
-script = ExtResource("1_2w13c")
+script = ExtResource("1_g6dmt")
 animation_player = NodePath("AnimationPlayer")
 particles = NodePath("GPUParticles2D")
 character_root = NodePath(".")
+movement = NodePath("AI")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 position = Vector2(-2.98023e-08, 8)
 amount = 30
-process_material = SubResource("ParticleProcessMaterial_irbnr")
-texture = ExtResource("2_dnuem")
+process_material = SubResource("ParticleProcessMaterial_lmyml")
+texture = ExtResource("2_78ye6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(3.01981e-14, 6.8)
+[node name="AnimationHandle" type="Node2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimationHandle"]
+position = Vector2(0, -9)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("3_x1hun")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(3.01981e-14, 8)
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_iyn3p")
+shape = SubResource("CapsuleShape2D_exa2a")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_default_blend_time = 0.5
@@ -126,15 +137,19 @@ libraries = {
 "": SubResource("AnimationLibrary_nkfg4")
 }
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
-modulate = Color(0, 0.219608, 0.443137, 1)
-position = Vector2(0, 9)
-texture = ExtResource("3_yfl5i")
-offset = Vector2(0, -9)
+[node name="AI" type="Node2D" parent="."]
+script = ExtResource("4_qs6k8")
+MOVE_WEIGHT = 0.7
 
-[node name="AnimationHandle" type="Node2D" parent="."]
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 264)
 
-[node name="Sprite2D" type="Sprite2D" parent="AnimationHandle"]
-position = Vector2(0, 9)
-texture = ExtResource("3_yfl5i")
-offset = Vector2(0, -9)
+[node name="VisionRadius" type="Area2D" parent="."]
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisionRadius"]
+shape = SubResource("CircleShape2D_2nmps")
+
+[connection signal="body_entered" from="VisionRadius" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="VisionRadius" to="." method="_on_area_2d_body_exited"]

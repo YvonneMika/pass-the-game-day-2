@@ -1,5 +1,5 @@
 extends Item
-class_name ItemCard
+class_name ItemMonsterCard
 
 @onready var animation_player := $AnimationPlayer
 

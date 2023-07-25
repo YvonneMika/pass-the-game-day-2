@@ -1,7 +1,11 @@
 extends Item
-class_name ItemCard
+class_name ItemDamageCard
 
 @onready var animation_player := $AnimationPlayer
+
+var stats = {
+	damage = 1
+}
 
 func _ready() -> void:
 	animation_player.play("idle")

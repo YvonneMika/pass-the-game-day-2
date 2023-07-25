@@ -1,16 +1,18 @@
-[gd_scene load_steps=12 format=3 uid="uid://cmckw46q12ubs"]
+[gd_scene load_steps=14 format=3 uid="uid://dsbfud1bnawje"]
 
-[ext_resource type="Script" path="res://scripts/character/character.gd" id="1_2w13c"]
-[ext_resource type="Texture2D" uid="uid://cw6ensncsjsyl" path="res://assets/images/particle.png" id="2_dnuem"]
-[ext_resource type="Texture2D" uid="uid://datuqk7usobkk" path="res://assets/images/place_holder.png" id="3_yfl5i"]
+[ext_resource type="Script" path="res://scripts/character/player/player.gd" id="1_4wps7"]
+[ext_resource type="Texture2D" uid="uid://cw6ensncsjsyl" path="res://assets/images/particle.png" id="2_fc3sw"]
+[ext_resource type="Texture2D" uid="uid://datuqk7usobkk" path="res://assets/images/place_holder.png" id="3_e2o6v"]
+[ext_resource type="Script" path="res://scripts/character/player/camera.gd" id="4_dca6s"]
+[ext_resource type="Script" path="res://scripts/input.gd" id="5_h7kyw"]
 
-[sub_resource type="Gradient" id="Gradient_nrie0"]
+[sub_resource type="Gradient" id="Gradient_jld42"]
 colors = PackedColorArray(1, 1, 1, 1, 0.454524, 0.454524, 0.454524, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_d88dh"]
-gradient = SubResource("Gradient_nrie0")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_swb0k"]
+gradient = SubResource("Gradient_jld42")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_irbnr"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xkqqe"]
 lifetime_randomness = 0.25
 emission_shape = 3
 emission_box_extents = Vector3(6, 0, 0)
@@ -26,9 +28,9 @@ orbit_velocity_max = 0.0
 angle_min = -90.0
 angle_max = 90.0
 scale_max = 2.0
-color_ramp = SubResource("GradientTexture1D_d88dh")
+color_ramp = SubResource("GradientTexture1D_swb0k")
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iyn3p"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g4d61"]
 radius = 2.0
 height = 12.8
 
@@ -100,25 +102,33 @@ _data = {
 "walk": SubResource("Animation_gl4xe")
 }
 
-[node name="Character" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "particles", "character_root")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "particles", "character_root", "movement")]
 texture_filter = 1
 scale = Vector2(2.5, 2.5)
-motion_mode = 1
-script = ExtResource("1_2w13c")
+script = ExtResource("1_4wps7")
 animation_player = NodePath("AnimationPlayer")
 particles = NodePath("GPUParticles2D")
 character_root = NodePath(".")
+movement = NodePath("Input")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 position = Vector2(-2.98023e-08, 8)
 amount = 30
-process_material = SubResource("ParticleProcessMaterial_irbnr")
-texture = ExtResource("2_dnuem")
+process_material = SubResource("ParticleProcessMaterial_xkqqe")
+texture = ExtResource("2_fc3sw")
+
+[node name="AnimationHandle" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimationHandle"]
+modulate = Color(0, 0.219608, 0.443137, 1)
+position = Vector2(0, 9)
+texture = ExtResource("3_e2o6v")
+offset = Vector2(0, -9)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(3.01981e-14, 6.8)
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_iyn3p")
+shape = SubResource("CapsuleShape2D_g4d61")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_default_blend_time = 0.5
@@ -126,15 +136,11 @@ libraries = {
 "": SubResource("AnimationLibrary_nkfg4")
 }
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
-modulate = Color(0, 0.219608, 0.443137, 1)
-position = Vector2(0, 9)
-texture = ExtResource("3_yfl5i")
-offset = Vector2(0, -9)
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+script = ExtResource("4_dca6s")
 
-[node name="AnimationHandle" type="Node2D" parent="."]
-
-[node name="Sprite2D" type="Sprite2D" parent="AnimationHandle"]
-position = Vector2(0, 9)
-texture = ExtResource("3_yfl5i")
-offset = Vector2(0, -9)
+[node name="Input" type="Node" parent="."]
+script = ExtResource("5_h7kyw")

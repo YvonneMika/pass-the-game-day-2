@@ -1,7 +1,8 @@
 @tool
 extends HBoxContainer
 
-signal on_card_used(card: CardUI) ## Emitted when card is used
+signal card_used(card: CardUI) ## Emitted when card is used
+signal card_clicked(card: CardUI) ## Emitted when card is clicked
 
 @export_range(0, 180, 1) var fan_angle_degrees := 20:
 	set(p_fan_angle_degrees):
@@ -24,15 +25,10 @@ func _on_sort_children() -> void:
 		set_y_based_on_angle(child, child.rotation_degrees)
 
 func _on_child_entered_tree(node: Node) -> void:
-	if node is CardUI:
-		print("card")
-		node.visibility_changed.connect(_on_child_visibility_change)
-		node.on_card_used.connect(_on_card_used)
+	node.visibility_changed.connect(_on_child_visibility_change)
 
 func _on_child_exiting_tree(node: Node) -> void:
-	if node is CardUI:
-		node.visibility_changed.disconnect(_on_child_visibility_change)
-		node.on_card_used.disconnect(_on_card_used)
+	node.visibility_changed.disconnect(_on_child_visibility_change)
 
 func adjust_separation():
 	var children_total_width := 0
@@ -81,7 +77,8 @@ func _on_child_visibility_change() -> void:
 	adjust_separation()
 	_on_sort_children()
 
-func _on_card_used(card: CardUI):
-	print("container _on_card_used")
-	emit_signal("on_card_used", card)
+func _card_used(card: CardUI):
+	emit_signal("card_used", card)
 
+func _card_clicked(card: CardUI):
+	emit_signal("card_clicked", card)

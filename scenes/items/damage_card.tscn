@@ -1,10 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dd8fhaq8kla3k"]
+[gd_scene load_steps=8 format=3 uid="uid://duuohhbsl4nfv"]
 
-[ext_resource type="Script" path="res://scripts/items/card.gd" id="1_07jq7"]
-[ext_resource type="Texture2D" uid="uid://csoen86d743jn" path="res://assets/images/card_placeholder.png" id="3_6dq2o"]
-[ext_resource type="Texture2D" uid="uid://b0anli8qqsiu5" path="res://assets/images/shadow_placeholder.png" id="3_6msjp"]
+[ext_resource type="Script" path="res://scripts/items/damage_card.gd" id="1_wpn30"]
+[ext_resource type="Texture2D" uid="uid://b0anli8qqsiu5" path="res://assets/images/shadow_placeholder.png" id="2_1ijxo"]
+[ext_resource type="Texture2D" uid="uid://74ddfwv2slmg" path="res://assets/images/damage_card_placeholder.png" id="3_ct2ms"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_tvemf"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_1lbxm"]
 
 [sub_resource type="Animation" id="Animation_rgovk"]
 length = 0.001
@@ -68,22 +68,22 @@ _data = {
 "idle": SubResource("Animation_qrcgq")
 }
 
-[node name="Card" type="Area2D"]
+[node name="DamageCard" type="Area2D"]
 texture_filter = 1
 scale = Vector2(2, 2)
-script = ExtResource("1_07jq7")
+script = ExtResource("1_wpn30")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_tvemf")
+shape = SubResource("CircleShape2D_1lbxm")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 scale = Vector2(1.5, 1.5)
-texture = ExtResource("3_6msjp")
+texture = ExtResource("2_1ijxo")
 
 [node name="Item2" type="Sprite2D" parent="."]
 position = Vector2(0, -9)
 scale = Vector2(1.5, 1.5)
-texture = ExtResource("3_6dq2o")
+texture = ExtResource("3_ct2ms")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
