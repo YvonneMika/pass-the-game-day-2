@@ -7,6 +7,13 @@ var is_enemy_near
 var time := 0.0
 
 func _physics_process(delta: float) -> void:
+	
+	# Attack enemies
+	for i in get_slide_collision_count():
+		var collider = get_slide_collision(i).get_collider()
+		if collider is Enemy:
+			collider.take_damage(stat_sheet.damage)
+	
 	time += delta
 	if is_enemy_near:
 		if time >= player_sightline_check_interval:
