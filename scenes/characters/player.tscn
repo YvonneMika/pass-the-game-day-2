@@ -106,6 +106,7 @@ _data = {
 texture_filter = 1
 scale = Vector2(2.5, 2.5)
 script = ExtResource("1_4wps7")
+health = null
 animation_player = NodePath("AnimationPlayer")
 particles = NodePath("GPUParticles2D")
 character_root = NodePath(".")

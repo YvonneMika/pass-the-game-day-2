@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://c8iaxnwk748px"]
+[gd_scene load_steps=9 format=3 uid="uid://c8iaxnwk748px"]
 
 [ext_resource type="Script" path="res://scripts/ui/cards/card.gd" id="1_lr2ox"]
+[ext_resource type="Script" path="res://scripts/stat_sheet.gd" id="2_esd86"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_csujt"]
 bg_color = Color(0.262745, 0.603922, 0.360784, 1)
@@ -13,6 +14,11 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+
+[sub_resource type="Resource" id="Resource_givko"]
+script = ExtResource("2_esd86")
+health = 0
+damage = 0
 
 [sub_resource type="Animation" id="Animation_h0433"]
 length = 0.001
@@ -86,6 +92,7 @@ grow_vertical = 0
 pivot_offset = Vector2(75, 250)
 theme_override_styles/panel = SubResource("StyleBoxFlat_csujt")
 script = ExtResource("1_lr2ox")
+stat_sheet = SubResource("Resource_givko")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

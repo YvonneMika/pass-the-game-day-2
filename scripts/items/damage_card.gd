@@ -3,9 +3,7 @@ class_name ItemDamageCard
 
 @onready var animation_player := $AnimationPlayer
 
-var stats = {
-	damage = 1
-}
+@export var stat_sheet : StatSheet
 
 func _ready() -> void:
 	animation_player.play("idle")

@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://uhnotqp5xdhl"]
+[gd_scene load_steps=18 format=3 uid="uid://uhnotqp5xdhl"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_n12yl"]
 [ext_resource type="PackedScene" uid="uid://cmckw46q12ubs" path="res://scenes/characters/character.tscn" id="1_pniiw"]
+[ext_resource type="PackedScene" uid="uid://cec2aldllemwx" path="res://scenes/characters/monster_ally.tscn" id="3_h73hj"]
 [ext_resource type="Script" path="res://scripts/character/ai.gd" id="4_vobog"]
 [ext_resource type="Script" path="res://scripts/ui.gd" id="5_ciko1"]
 [ext_resource type="PackedScene" uid="uid://c8iaxnwk748px" path="res://scenes/ui/cards/card.tscn" id="6_5k2mh"]
@@ -78,9 +79,11 @@ _data = {
 [node name="World" type="Node2D"]
 script = ExtResource("1_n12yl")
 card_scene = ExtResource("7_egx88")
+monster_scene = ExtResource("3_h73hj")
 
 [node name="Player" parent="." node_paths=PackedStringArray("UI") instance=ExtResource("9_651hr")]
 UI = NodePath("../UI")
+health = null
 
 [node name="AI" parent="." node_paths=PackedStringArray("movement") instance=ExtResource("1_pniiw")]
 position = Vector2(204, -35)
@@ -178,6 +181,7 @@ position = Vector2(228, 152)
 
 [node name="Enemy" parent="." instance=ExtResource("10_l0lr0")]
 position = Vector2(420, 82)
+health = null
 
 [node name="MonsterCard" parent="." instance=ExtResource("11_pytjq")]
 position = Vector2(91, 69)

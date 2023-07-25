@@ -14,19 +14,16 @@ enum TYPE { NONE, MONSTER, ITEM, SPELL }
 			card_type = p_card_type
 			$MarginContainer/VBoxContainer/MarginContainer/Type.text = type_to_str(card_type)
 			emit_signal("type_changed") # TODO: can you emit signals from setters?
-@export var damage := 0:
-	set(p_damage):
-		if damage != p_damage:
-			damage = p_damage
-			if damage > 0:
-				$MarginContainer/VBoxContainer/Damage.text = str(damage)
-			else:
-				$MarginContainer/VBoxContainer/Damage.text = ""
+@export var stat_sheet : StatSheet:
+	set(p_stat_sheet):
+		if stat_sheet != p_stat_sheet:
+			stat_sheet = p_stat_sheet
+			update_card()
 
 @onready var anim_player := $AnimationPlayer
 @onready var hover_parent := get_node("../../..")
 @onready var container := get_node("..")
-
+@onready var damage_lbl := $MarginContainer/VBoxContainer/Damage
 
 var mouse_is_inside := false
 var hovering := false
@@ -90,3 +87,10 @@ func type_to_str(type) -> String:
 			return "Spell"
 		_:
 			return "None"
+
+func update_card():
+	if !is_node_ready(): return
+	if stat_sheet.damage > 0:
+		damage_lbl.text = str(stat_sheet.damage)
+	else:
+		damage_lbl.text = ""

@@ -6,8 +6,7 @@ class_name Character
 
 signal on_die() ## Called when this character's health reaches 0
 
-@export_group("Stats")
-@export var health := 3
+@export var stat_sheet : StatSheet
 @export_group("Physics")
 @export var SPEED := 300.0
 @export var IS_MOVING_THRESHOLD := .2 ## Used to determine how much velocity the character needs to be considered "moving"
@@ -46,10 +45,10 @@ func _physics_process(_delta: float) -> void:
 ## Applies [amount] damage to this character
 ## Returns the remaining health of the character
 func take_damage(amount: int) -> int:
-	health -= amount
-	if health <= 0:
+	stat_sheet.health -= amount
+	if stat_sheet.health <= 0:
 		die()
-	return health
+	return stat_sheet.health
 
 
 func die() -> void:

@@ -12,6 +12,6 @@ func on_item_pickup(item: Item):
 	elif item is ItemMonsterCard:
 		UI.apply_card_type_modifier(CardUI.TYPE.MONSTER) # TODO card type enum?
 	elif item is ItemDamageCard:
-		UI.apply_card_stat_modifier(item.stats)
+		UI.apply_card_stat_modifier(item.stat_sheet)
 	else:
 		print("Couldn't find item ", item)

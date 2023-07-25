@@ -1,8 +1,8 @@
 [gd_scene load_steps=14 format=3 uid="uid://cec2aldllemwx"]
 
-[ext_resource type="Script" path="res://scripts/character/enemy.gd" id="1_i42er"]
 [ext_resource type="Texture2D" uid="uid://cw6ensncsjsyl" path="res://assets/images/particle.png" id="2_s22nn"]
 [ext_resource type="Texture2D" uid="uid://datuqk7usobkk" path="res://assets/images/place_holder.png" id="3_qqau4"]
+[ext_resource type="Script" path="res://scripts/character/movement.gd" id="4_6gpv1"]
 [ext_resource type="Script" path="res://scripts/character/monster_ally.gd" id="4_7h25t"]
 
 [sub_resource type="Gradient" id="Gradient_f715h"]
@@ -106,11 +106,12 @@ radius = 259.326
 
 [node name="MonsterAlly" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "particles", "character_root", "movement")]
 texture_filter = 1
-script = ExtResource("1_i42er")
+script = ExtResource("4_7h25t")
+health = null
 animation_player = NodePath("AnimationPlayer")
 particles = NodePath("GPUParticles2D")
 character_root = NodePath(".")
-movement = NodePath("AI")
+movement = NodePath("Movement")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 position = Vector2(-2.98023e-08, 8)
@@ -119,7 +120,7 @@ process_material = SubResource("ParticleProcessMaterial_lmyml")
 texture = ExtResource("2_s22nn")
 
 [node name="AnimationHandle" type="Node2D" parent="."]
-modulate = Color(1, 0, 0, 1)
+modulate = Color(0, 0.576471, 0.811765, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="AnimationHandle"]
 position = Vector2(0, -9)
@@ -137,9 +138,6 @@ libraries = {
 "": SubResource("AnimationLibrary_nkfg4")
 }
 
-[node name="AI" type="Node2D" parent="."]
-script = ExtResource("4_7h25t")
-
 [node name="RayCast2D" type="RayCast2D" parent="."]
 target_position = Vector2(0, 264)
 
@@ -149,6 +147,9 @@ metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VisionRadius"]
 shape = SubResource("CircleShape2D_2nmps")
+
+[node name="Movement" type="Node" parent="."]
+script = ExtResource("4_6gpv1")
 
 [connection signal="body_entered" from="VisionRadius" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="VisionRadius" to="." method="_on_area_2d_body_exited"]
