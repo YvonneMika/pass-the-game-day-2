@@ -33,6 +33,10 @@ func _ready() -> void:
 	card_clicked.connect(container._card_clicked)
 	$MarginContainer/VBoxContainer/MarginContainer/Name.text = name
 	$MarginContainer/VBoxContainer/MarginContainer/Type.text = type_to_str(TYPE)
+	if stat_sheet.damage > 0:
+		damage_lbl.text = str(stat_sheet.damage)
+	else:
+		damage_lbl.text = ""
 
 func _on_mouse_entered() -> void:
 	mouse_is_inside = true

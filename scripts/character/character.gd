@@ -7,6 +7,7 @@ class_name Character
 signal on_die() ## Called when this character's health reaches 0
 
 @export var stat_sheet : StatSheet
+@export var invuln_time := 1
 @export_group("Physics")
 @export var SPEED := 300.0
 @export var IS_MOVING_THRESHOLD := .2 ## Used to determine how much velocity the character needs to be considered "moving"
@@ -16,10 +17,16 @@ signal on_die() ## Called when this character's health reaches 0
 @export var character_root: Node2D = self ## The root of the character, used to determine what to delete on death
 @export var movement: Movement ## Needed to move the character
 
+var invuln_timer : float = invuln_time
+var invulnerable := false
+
 func _ready() -> void:
 	animation_player.play("idle")
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	invuln_timer += delta
+	if invuln_timer >= invuln_time:
+		invulnerable = false
 	if movement:
 		# Get direction from movement node (usually input or ai)
 		var direction = movement.direction
@@ -44,11 +51,15 @@ func _physics_process(_delta: float) -> void:
 
 ## Applies [amount] damage to this character
 ## Returns the remaining health of the character
-func take_damage(amount: int) -> int:
+func take_damage(amount: int):
+	if invulnerable:
+		return
+	print("take_damage")
 	stat_sheet.health -= amount
 	if stat_sheet.health <= 0:
 		die()
-	return stat_sheet.health
+	invuln_timer = 0
+	invulnerable = true
 
 
 func die() -> void:

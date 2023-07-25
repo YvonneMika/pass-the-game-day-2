@@ -107,7 +107,6 @@ radius = 259.326
 [node name="MonsterAlly" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "particles", "character_root", "movement")]
 texture_filter = 1
 script = ExtResource("4_7h25t")
-health = null
 animation_player = NodePath("AnimationPlayer")
 particles = NodePath("GPUParticles2D")
 character_root = NodePath(".")

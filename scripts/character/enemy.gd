@@ -8,6 +8,10 @@ var is_player_near
 var time := 0.0
 
 func _physics_process(delta: float) -> void:
+	for i in get_slide_collision_count():
+		var collider = get_slide_collision(i).get_collider()
+		if collider is Character:
+			collider.take_damage(stat_sheet.damage)
 	time += delta
 	if is_player_near:
 		if time >= player_sightline_check_interval:

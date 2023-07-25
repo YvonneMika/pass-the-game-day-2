@@ -2,6 +2,8 @@ extends Area2D
 class_name Item
 ## Base item all items inherit from
 
+@export var stat_sheet : StatSheet
+
 func _enter_tree() -> void:
 	body_entered.connect(_on_body_entered)
 

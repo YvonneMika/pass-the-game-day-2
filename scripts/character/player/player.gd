@@ -8,7 +8,7 @@ func _enter_tree() -> void:
 
 func on_item_pickup(item: Item):
 	if item is ItemCard:
-		UI.add_card()
+		UI.add_card(item.stat_sheet)
 	elif item is ItemMonsterCard:
 		UI.apply_card_type_modifier(CardUI.TYPE.MONSTER) # TODO card type enum?
 	elif item is ItemDamageCard:

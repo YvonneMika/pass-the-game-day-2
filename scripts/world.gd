@@ -8,14 +8,14 @@ func _on_card_container_card_used(card: CardUI) -> void:
 	var card_pos = get_global_mouse_position()
 	if card.card_type == CardUI.TYPE.MONSTER:
 		spawn_character(monster_scene, card_pos, card.stat_sheet)
-		
 	else:
-		spawn_item(card_scene, card_pos)
+		spawn_item(card_scene, card_pos, card.stat_sheet)
 
 ## Spawn an item at a given position
-func spawn_item(item_scene: PackedScene, spawn_pos: Vector2) -> void:
+func spawn_item(item_scene: PackedScene, spawn_pos: Vector2, stat_sheet: StatSheet) -> void:
 	var item: Item = item_scene.instantiate()
 	item.position = spawn_pos
+	item.stat_sheet = stat_sheet
 	add_child(item)
 
 func spawn_character(character_scene: PackedScene, spawn_pos: Vector2, stat_sheet: StatSheet) -> void:

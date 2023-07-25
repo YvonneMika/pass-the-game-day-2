@@ -11,8 +11,9 @@ var stat_sheet
 func _ready() -> void:
 	card_select.visible = false
 
-func add_card():
+func add_card(stat_sheet: StatSheet):
 	var card = card_scene.instantiate()
+	card.stat_sheet = stat_sheet
 	card_container.add_child(card)
 
 func apply_card_type_modifier(new_type):

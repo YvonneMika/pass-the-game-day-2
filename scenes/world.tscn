@@ -83,7 +83,6 @@ monster_scene = ExtResource("3_h73hj")
 
 [node name="Player" parent="." node_paths=PackedStringArray("UI") instance=ExtResource("9_651hr")]
 UI = NodePath("../UI")
-health = null
 
 [node name="AI" parent="." node_paths=PackedStringArray("movement") instance=ExtResource("1_pniiw")]
 position = Vector2(204, -35)
@@ -181,7 +180,6 @@ position = Vector2(228, 152)
 
 [node name="Enemy" parent="." instance=ExtResource("10_l0lr0")]
 position = Vector2(420, 82)
-health = null
 
 [node name="MonsterCard" parent="." instance=ExtResource("11_pytjq")]
 position = Vector2(91, 69)
