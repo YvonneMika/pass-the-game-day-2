@@ -27,6 +27,7 @@ func spawn_item(item_scene: PackedScene, spawn_pos: Vector2, stat_sheet: StatShe
 	item.position = spawn_pos
 	item.stat_sheet = stat_sheet
 	add_child(item)
+	print("Item created at " + str(spawn_pos) + " with " + str(stat_sheet.damage) + " ATK/" + str(stat_sheet.health) + " HP")
 
 func spawn_character(character_scene: PackedScene, spawn_pos: Vector2, stat_sheet: StatSheet) -> void:
 	var character: Character = character_scene.instantiate()
@@ -34,3 +35,4 @@ func spawn_character(character_scene: PackedScene, spawn_pos: Vector2, stat_shee
 	monster.stat_sheet = stat_sheet
 	monster.position = spawn_pos
 	add_child(monster)
+	print("Monster created at " + str(spawn_pos) + " with " + str(stat_sheet.damage) + " ATK/" + str(stat_sheet.health) + " HP")

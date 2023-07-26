@@ -8,22 +8,18 @@ signal card_clicked(card: CardUI) ## Emitted when card is clicked
 
 @export_category("Stats")
 enum TYPE { NONE, MONSTER, ITEM, SPELL }
-@export var card_type := TYPE.NONE:
-	set(p_card_type):
-		if p_card_type != card_type:
-			card_type = p_card_type
-			$MarginContainer/VBoxContainer/MarginContainer/Type.text = type_to_str(card_type)
-			emit_signal("type_changed") # TODO: can you emit signals from setters?
-@export var stat_sheet : StatSheet:
-	set(p_stat_sheet):
-		if stat_sheet != p_stat_sheet:
-			stat_sheet = p_stat_sheet
-			update_card()
+@export var card_type := TYPE.NONE
+@export var stat_sheet : StatSheet
+@export var extra_damage : int
+@export var extra_health : int
 
 @onready var anim_player := $AnimationPlayer
 @onready var hover_parent := get_node("../../..")
 @onready var container := get_node("..")
-@onready var damage_lbl := $MarginContainer/VBoxContainer/Damage
+@onready var damage_lbl := $MarginContainer/VBoxContainer/Stats
+@onready var type_lbl := $MarginContainer/VBoxContainer/Type
+@onready var name_lbl := $MarginContainer/VBoxContainer/MarginContainer/Name
+@onready var image := $MarginContainer/VBoxContainer/MarginContainer2/TextureRect
 
 var mouse_is_inside := false
 var hovering := false
@@ -31,12 +27,21 @@ var hovering := false
 func _ready() -> void:
 	card_used.connect(container._card_used)
 	card_clicked.connect(container._card_clicked)
-	$MarginContainer/VBoxContainer/MarginContainer/Name.text = name
-	$MarginContainer/VBoxContainer/MarginContainer/Type.text = type_to_str(TYPE)
-	if stat_sheet.damage > 0:
-		damage_lbl.text = str(stat_sheet.damage)
-	else:
-		damage_lbl.text = ""
+	update_card()
+
+func update_type(new_type: TYPE):
+	if new_type != card_type:
+		type_changed.emit()
+		card_type = new_type
+	update_card()
+	
+func update_stats(new_stats: StatSheet):
+	if stat_sheet == null and new_stats != null:
+		stat_sheet = new_stats.duplicate()
+	elif new_stats != null:
+		stat_sheet.damage += new_stats.damage
+		stat_sheet.health += new_stats.health
+	update_card()
 
 func _on_mouse_entered() -> void:
 	mouse_is_inside = true
@@ -90,11 +95,51 @@ func type_to_str(type) -> String:
 		TYPE.SPELL:
 			return "Spell"
 		_:
-			return "None"
+			return ""
 
 func update_card():
 	if !is_node_ready(): return
+	name_lbl.text = calc_name()
+	type_lbl.text = type_to_str(card_type)
+	
+	if card_type == null:
+		image.texture = null
+	if card_type == TYPE.MONSTER:
+		image.texture = load("res://assets/images/place_holder.png")
+	
 	if stat_sheet.damage > 0:
-		damage_lbl.text = str(stat_sheet.damage)
+		damage_lbl.text = str(stat_sheet.damage) + " ATK " + str(stat_sheet.health) + " HP"
 	else:
 		damage_lbl.text = ""
+
+func calc_name() -> String:
+	var name = ""
+	
+	#Add adjective
+	if stat_sheet.damage > 0 and stat_sheet.health > 0 and not card_type == TYPE.NONE:
+		var total_stats = stat_sheet.damage + stat_sheet.health
+		if total_stats > 10:
+			name += "Massive "
+		elif total_stats > 8:
+			name += "Huge "
+		elif total_stats > 6:
+			name += "Sizeable "
+		elif total_stats > 4:
+			name += "Medium "
+		else:
+			name += "Small "
+	
+	#Add base name
+	if card_type == TYPE.MONSTER:
+		name += "Monster"
+		
+	#Possible future types?
+	elif card_type == TYPE.ITEM:
+		name += "Potion"
+	elif card_type == TYPE.SPELL:
+		name += "Fireball"
+	
+	if name == "":
+		name = "Empty Card"
+	
+	return name
